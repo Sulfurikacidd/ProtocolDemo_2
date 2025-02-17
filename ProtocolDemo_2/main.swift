@@ -1,11 +1,57 @@
-//
-//  main.swift
-//  ProtocolDemo_2
-//
-//  Created by Muhammad Talal on 2025-02-15.
-//
+//Protocol and delegates demo by Angela Yu. Lecture 147.
 
-import Foundation
+protocol AdvancedLifeSupport {
+    func performCPR()
+}
 
-print("Hello, World!")
+class EmergencyCallHandler {
+    
+    var delegate: AdvancedLifeSupport?
+    
+    func analyzeSituation() {
+        print("Ask probing questions")
+    }
+    
+    func declareEmergency() {
+        delegate?.performCPR()
+    }
+    
+}
+
+struct Paramedic: AdvancedLifeSupport {
+    
+    init(handler: EmergencyCallHandler) {
+        handler.delegate = self
+    }
+    
+    func performCPR() {
+        print("The Paramedic performs CPR")
+    }
+    
+}
+
+class Doctor: AdvancedLifeSupport {
+    
+    init(handler: EmergencyCallHandler) {
+        handler.delegate = self
+    }
+    
+    func performCPR() {
+        print("The Doctor performs CPR")
+    }
+    
+}
+
+class Surgeon: Doctor {
+    
+    override func performCPR() {
+        print("The Surgeon performs CPR ")
+    }
+}
+
+let emilio = EmergencyCallHandler()
+let angela = Surgeon(handler: emilio)
+
+emilio.analyzeSituation()
+emilio.declareEmergency()
 
